@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Manor.DreamTeam.Recruitment.UnitOfWork;
-using Manor.DreamTeam.Recruitment.Domain;
-using Manor.DreamTeam.Recruitment.Interfaces;
 
-namespace Manor.DreamTeam.Recruitment
+namespace Manor.DreamTeam.Recruitment.ui
 {
     public class Startup
     {
@@ -27,10 +28,6 @@ namespace Manor.DreamTeam.Recruitment
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddTransient<ITelemetryContext, TelemetryJSONContext>();
-            services.AddTransient<IRepository<Telemetry>, TelemetryRepository>();
-
-            services.AddCors();
             services.AddMvc();
         }
 
@@ -40,14 +37,24 @@ namespace Manor.DreamTeam.Recruitment
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseDefaultFiles();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
             app.UseStaticFiles();
 
-            // Shows UseCors with CorsPolicyBuilder.
-            app.UseCors(builder =>
-               builder.WithOrigins("http://localhost:54328"));
-
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

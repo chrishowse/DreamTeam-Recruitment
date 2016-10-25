@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div ng-app="myApp" ng-controller="telemetryCtrl">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Chassis CH1</h1>
+                <table>
+                    <tr>
+                        <th>Lap</th>
+                        <th>Time</th>
+                        <th>Fuel</th>
+                        <th>Tyre Temp</th>
+                    </tr>
+                    <tr ng-repeat="t in chassisCH1">
+                        <td>{{ t.lap.number }}</td>
+                        <td>{{ t.lap.time }}</td>
+                        <td>{{ t.car.fuel }}</td>
+                        <td>{{ t.car.tyreTemp }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h1>Chassis CH2</h1>
+                <table>
+                    <tr>
+                        <th>Lap</th>
+                        <th>Time</th>
+                        <th>Fuel</th>
+                        <th>Tyre Temp</th>
+                    </tr>
+                    <tr ng-repeat="t in chassisCH2">
+                        <td>{{ t.lap.number }}</td>
+                        <td>{{ t.lap.time }}</td>
+                        <td>{{ t.car.fuel }}</td>
+                        <td>{{ t.car.tyreTemp }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('telemetryCtrl', function ($scope, $http) {
+        $http.get("http://localhost:5000/api/telemetry/chassis/CH1").then(function (response) {
+            $scope.chassisCH1 = response.data;
+        });
+
+        $http.get("http://localhost:5000/api/telemetry/chassis/CH2").then(function (response) {
+            $scope.chassisCH2 = response.data;
+        });
+    });
+</script>
+}
