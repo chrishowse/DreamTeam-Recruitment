@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Manor.DreamTeam.Recruitment.UnitOfWork;
+using Manor.DreamTeam.Recruitment.Domain;
+using Manor.DreamTeam.Recruitment.Interfaces;
 
 namespace Manor.DreamTeam.Recruitment
 {
@@ -24,7 +27,9 @@ namespace Manor.DreamTeam.Recruitment
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            // TODO: Register an implementation of IRepository<Telemetry>
+            services.AddTransient<ITelemetryContext, TelemetryJSONContext>();
+            services.AddTransient<IRepository<Telemetry>, TelemetryRepository>();
+
             services.AddMvc();
         }
 
