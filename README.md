@@ -1,3 +1,41 @@
+## Updated, Chris Howse: 25/11/2016:
+
+## Completed:
+
+### Story MR-001
+### Tasks:
+1. Implemented IRepository<Telemetry> using telemetry.json as test data.
+	
+	Tests are in TelemetryRepositoryTests.cs
+	IRepository implements ITelemetryContext to remove dependancy on JSON.
+	
+2. Complete Get(), GetByChassis(string chassis) and GetByLap(int lap) methods in TelemetryController.cs.
+	
+	Tests are in TelemetryControllerTests.cs
+	
+3. Add a method for obtaining details of the fastest lap recorded.
+
+	Test is TelemetryController_GetfastestLapRecorded located in TelemetryControllerTests.cs
+	GetFastestLap in TelemetryController.cs
+	
+4. [Optional] Add a basic UI for comparing lap-by-lap telemetry data between CH1 and CH2. The UI should consist of a list of laps, a section for each car, a comparison panel comparing lap time deltas/fuel burn. Don't spend any time on styling - it just has to be functional!
+
+	Added Manor.DreamTeam.Recruitment.ui project
+	Basic UI is located in Index.cshtml
+
+### Story MR-002
+
+1. Add a method to TelemetryController.cs for accepting new lap to the collection.
+
+	Tests located in TelemetryControllerTests.cs:
+		TelemetryController_Post_New
+		TelemetryController_Post_Existing
+		
+2. Ensure that any duplicated telemetry is handled appropriately.
+
+	Throws exception if Chassis is added twice for same lap.
+
+
 # MANOR RACING - Software Engineering Tech Test
 
 Thanks for your interest in Manor Racing! 
