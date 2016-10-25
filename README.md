@@ -28,13 +28,22 @@
 1. Add a method to TelemetryController.cs for accepting new lap to the collection.
 
 	Tests located in TelemetryControllerTests.cs:
-		TelemetryController_Post_New
+		TelemetryController_Post_New,
 		TelemetryController_Post_Existing
 		
 2. Ensure that any duplicated telemetry is handled appropriately.
 
 	Throws exception if Chassis is added twice for same lap.
 
+### Story MR-005 - identify slow pit lane in-laps and out-laps So that average calculations for normal laps aren't skewed
+
+1. Added PitLaps method to TelemetryController
+
+The method makes a assumption that when the Tyre temperature reduces by 30% then that is a lap with a pit.
+
+	Tests located in TelemetryControllerTests.cs:
+		TelemetryController_PitLaps_CH1,
+		TelemetryController_PitLaps_CH2
 
 # MANOR RACING - Software Engineering Tech Test
 

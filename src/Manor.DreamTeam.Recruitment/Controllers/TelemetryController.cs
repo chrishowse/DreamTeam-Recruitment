@@ -58,5 +58,28 @@ namespace Manor.DreamTeam.Recruitment.Controllers
         {
             _telemetryRepo.Create(telemetry);
         }
+
+        // GET api/telemetry/pitlaps/CH1
+        [HttpGet("pitlaps/{chassis}")]
+        public IEnumerable<Telemetry> PitLaps(string chassis)
+        {
+            var list = GetByChassis(chassis);
+            var lapList = new List<Telemetry>();
+
+            Telemetry previousTelemetry = null;
+
+            foreach(var item in list)
+            {
+                if (previousTelemetry != null)
+                {
+                    double previousTyreTempMinus30Percent = previousTelemetry.Car.TyreTemp * 0.70;
+                    if (item.Car.TyreTemp <= previousTyreTempMinus30Percent)
+                        lapList.Add(item);
+                }
+                previousTelemetry = item;
+            }
+
+            return lapList;
+        }
     }
 }

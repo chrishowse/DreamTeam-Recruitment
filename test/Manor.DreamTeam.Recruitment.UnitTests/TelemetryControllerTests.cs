@@ -130,5 +130,41 @@ namespace Manor.DreamTeam.Recruitment.UnitTests
         }
 
         #endregion #Story MR-002 Tests - Method for accepting new lap to the collection
+
+        #region #Story MR-005 - identify slow pit lane in-laps and out-laps So that average calculations for normal laps aren't skewed
+
+        [Fact]
+        public void TelemetryController_PitLaps_CH1()
+        {
+            const int expectedPitCount = 2;
+            int[] expectedPitLaps = { 14, 51 };
+
+            var pitLaps = _controller.PitLaps("CH1");
+
+            Assert.Equal(expectedPitCount, pitLaps.Count());
+
+            foreach (var expectedLap in expectedPitLaps)
+            {
+                Assert.True(pitLaps.Count(p => p.Lap.Number.Equals(expectedLap)) > 0);
+            }
+        }
+
+        [Fact]
+        public void TelemetryController_PitLaps_CH2()
+        {
+            const int expectedPitCount = 1;
+            int[] expectedPitLaps = { 15 };
+
+            var pitLaps = _controller.PitLaps("CH2");
+
+            Assert.Equal(expectedPitCount, pitLaps.Count());
+
+            foreach (var expectedLap in expectedPitLaps)
+            {
+                Assert.True(pitLaps.Count(p => p.Lap.Number.Equals(expectedLap)) > 0);
+            }
+        }
+
+        #endregion
     }
 }
